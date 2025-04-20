@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogIn, User } from "lucide-react";
+import { Menu, LogIn, User, Building } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -10,23 +10,40 @@ export function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEmployer, setIsEmployer] = useState(false);
   
   useEffect(() => {
-    // Check if user is logged in from localStorage
+    // Check if user or employer is logged in from localStorage
     const user = localStorage.getItem("user");
+    const employer = localStorage.getItem("employer");
+    
     if (user) {
       try {
         const userData = JSON.parse(user);
         setIsLoggedIn(!!userData.isLoggedIn);
+        setIsEmployer(false);
       } catch (e) {
         console.error("Error parsing user data", e);
+      }
+    } else if (employer) {
+      try {
+        const employerData = JSON.parse(employer);
+        setIsLoggedIn(!!employerData.isEmployer);
+        setIsEmployer(true);
+      } catch (e) {
+        console.error("Error parsing employer data", e);
       }
     }
   }, []);
   
   const handleSignOut = () => {
-    localStorage.removeItem("user");
+    if (isEmployer) {
+      localStorage.removeItem("employer");
+    } else {
+      localStorage.removeItem("user");
+    }
     setIsLoggedIn(false);
+    setIsEmployer(false);
     navigate("/");
   };
 
@@ -41,24 +58,28 @@ export function Navbar() {
       >
         Home
       </Link>
-      <Link 
-        to="/marketplace" 
-        className={cn(
-          "text-white hover:text-trail-gold transition",
-          location.pathname === "/marketplace" && "text-trail-gold"
-        )}
-      >
-        Marketplace
-      </Link>
-      <Link 
-        to="/jobs" 
-        className={cn(
-          "text-white hover:text-trail-gold transition",
-          location.pathname === "/jobs" && "text-trail-gold"
-        )}
-      >
-        Jobs
-      </Link>
+      {!isEmployer && (
+        <>
+          <Link 
+            to="/marketplace" 
+            className={cn(
+              "text-white hover:text-trail-gold transition",
+              location.pathname === "/marketplace" && "text-trail-gold"
+            )}
+          >
+            Marketplace
+          </Link>
+          <Link 
+            to="/jobs" 
+            className={cn(
+              "text-white hover:text-trail-gold transition",
+              location.pathname === "/jobs" && "text-trail-gold"
+            )}
+          >
+            Jobs
+          </Link>
+        </>
+      )}
     </>
   );
 
@@ -82,9 +103,14 @@ export function Navbar() {
           <NavLinks />
           {isLoggedIn ? (
             <div className="flex items-center gap-2">
-              <Button className="bg-transparent text-white hover:bg-trail-navy/20 gap-2">
-                <User size={18} />
-                <span>Profile</span>
+              <Button 
+                asChild
+                className="bg-transparent text-white hover:bg-trail-navy/20 gap-2"
+              >
+                <Link to={isEmployer ? "/employer/dashboard" : "/profile"}>
+                  {isEmployer ? <Building size={18} /> : <User size={18} />}
+                  <span>{isEmployer ? "Dashboard" : "Profile"}</span>
+                </Link>
               </Button>
               <Button 
                 className="bg-trail-gold text-trail-navy hover:bg-white"
@@ -94,12 +120,20 @@ export function Navbar() {
               </Button>
             </div>
           ) : (
-            <Button asChild className="bg-trail-gold text-trail-navy hover:bg-white">
-              <Link to="/signin">
-                <LogIn className="w-4 h-4 mr-2" />
-                Sign In
-              </Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button asChild className="bg-transparent text-white hover:bg-trail-navy/20">
+                <Link to="/employer/signin">
+                  <Building className="w-4 h-4 mr-2" />
+                  Employer Sign In
+                </Link>
+              </Button>
+              <Button asChild className="bg-trail-gold text-trail-navy hover:bg-white">
+                <Link to="/signin">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Student Sign In
+                </Link>
+              </Button>
+            </div>
           )}
         </div>
 
@@ -116,9 +150,14 @@ export function Navbar() {
                 <NavLinks />
                 {isLoggedIn ? (
                   <>
-                    <Button className="bg-transparent text-white hover:bg-trail-navy/20 w-full justify-start">
-                      <User size={18} className="mr-2" />
-                      Profile
+                    <Button 
+                      asChild
+                      className="bg-transparent text-white hover:bg-trail-navy/20 w-full justify-start"
+                    >
+                      <Link to={isEmployer ? "/employer/dashboard" : "/profile"}>
+                        {isEmployer ? <Building size={18} className="mr-2" /> : <User size={18} className="mr-2" />}
+                        {isEmployer ? "Dashboard" : "Profile"}
+                      </Link>
                     </Button>
                     <Button 
                       className="bg-trail-gold text-trail-navy hover:bg-white w-full"
@@ -128,15 +167,26 @@ export function Navbar() {
                     </Button>
                   </>
                 ) : (
-                  <Button 
-                    asChild
-                    className="bg-trail-gold text-trail-navy hover:bg-white w-full"
-                  >
-                    <Link to="/signin">
-                      <LogIn className="w-4 h-4 mr-2" />
-                      Sign In
-                    </Link>
-                  </Button>
+                  <>
+                    <Button 
+                      asChild
+                      className="bg-transparent text-white hover:bg-trail-navy/20 w-full justify-start"
+                    >
+                      <Link to="/employer/signin">
+                        <Building className="w-4 h-4 mr-2" />
+                        Employer Sign In
+                      </Link>
+                    </Button>
+                    <Button 
+                      asChild
+                      className="bg-trail-gold text-trail-navy hover:bg-white w-full"
+                    >
+                      <Link to="/signin">
+                        <LogIn className="w-4 h-4 mr-2" />
+                        Student Sign In
+                      </Link>
+                    </Button>
+                  </>
                 )}
               </div>
             </SheetContent>
