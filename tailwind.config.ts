@@ -10,13 +10,22 @@ export default {
 	],
 	prefix: "",
 	theme: {
-		container: {
-			center: true,
-			padding: '2rem',
-			screens: {
-				'2xl': '1400px'
-			}
-		},
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px'
+      }
+    },
+    extend: {
+      colors: {
+        ustp: {
+          navy: '#1B3160',
+          gold: '#FFD700',
+          gray: '#F5F7FA',
+          dark: '#2D3748'
+        }
+      },
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',
