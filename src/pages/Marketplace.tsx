@@ -2,9 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useState } from "react";
+import { ProductCard, Product } from "@/components/marketplace/ProductCard";
+import { CategoryCard } from "@/components/marketplace/CategoryCard";
+import { products, categories } from "@/data/products";
 
 const Marketplace = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,13 +19,14 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-ustp-gray">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <div className="container mx-auto py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-ustp-navy">USTP Marketplace</h1>
-          <Button className="bg-ustp-gold text-ustp-navy hover:bg-white">
+          <h1 className="text-3xl font-bold text-trail-navy">Marketplace</h1>
+          <Button className="bg-trail-gold text-trail-navy hover:bg-white">
+            <ShoppingCart className="w-4 h-4 mr-2" />
             Post Item
           </Button>
         </div>
@@ -41,17 +45,27 @@ const Marketplace = () => {
           </Button>
         </form>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {/* Sample marketplace items */}
-          <Card className="p-4">
-            <h3 className="font-semibold mb-2">Calculus Textbook</h3>
-            <p className="text-gray-600 mb-2">Good condition, 8th edition</p>
-            <p className="text-ustp-navy font-bold mb-4">₱800</p>
-            <Button className="w-full bg-ustp-navy text-white hover:bg-ustp-gold hover:text-ustp-navy">
-              Contact Seller
-            </Button>
-          </Card>
-        </div>
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-6">Categories</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {categories.map((category, index) => (
+              <CategoryCard 
+                key={index}
+                name={category.name}
+                count={category.count}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold mb-6">Latest Products</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

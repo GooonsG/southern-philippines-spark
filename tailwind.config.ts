@@ -20,11 +20,11 @@ export default {
 		},
 		extend: {
 			colors: {
-				ustp: {
-					navy: '#1B3160',
-					gold: '#FFD700',
-					gray: '#F5F7FA',
-					dark: '#2D3748'
+				trail: {
+					navy: '#1A1F2C', // Dark navy color from the logo
+					gold: '#FFD700', // Gold color from the logo
+					gray: '#F5F7FA', // Light gray for backgrounds
+					dark: '#2D3748' // Darker shade for text
 				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
