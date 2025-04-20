@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -10,24 +11,21 @@ export default {
 	],
 	prefix: "",
 	theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px'
-      }
-    },
-    extend: {
-      colors: {
-        ustp: {
-          navy: '#1B3160',
-          gold: '#FFD700',
-          gray: '#F5F7FA',
-          dark: '#2D3748'
-        }
-      },
+		container: {
+			center: true,
+			padding: '2rem',
+			screens: {
+				'2xl': '1400px'
+			}
+		},
 		extend: {
 			colors: {
+				ustp: {
+					navy: '#1B3160',
+					gold: '#FFD700',
+					gray: '#F5F7FA',
+					dark: '#2D3748'
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
