@@ -1,13 +1,11 @@
-
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Navbar } from "@/components/layout/Navbar";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Briefcase } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-trail-gray">
       <Navbar />
       
       {/* Hero Section */}
@@ -17,7 +15,7 @@ const Index = () => {
             <img 
               src="/public/lovable-uploads/75dc838d-8129-4852-9f4c-679cf4254e60.png" 
               alt="Trail System Logo" 
-              className="h-32"
+              className="h-48 w-auto"
             />
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
